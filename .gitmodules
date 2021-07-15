@@ -4,3 +4,6 @@
 [submodule "giibiiadvance"]
 	path = giibiiadvance
 	url = https://github.com/AntonioND/giibiiadvance
+[submodule "libugba"]
+	path = libugba
+	url = https://github.com/AntonioND/libugba
