@@ -29,9 +29,10 @@ set(BUILD_GBA_INTERNAL "${BUILD_GBA}")
 
 include(cmake/compiler_flags.cmake)
 
-# Add subdirectories
-# ------------------
+# Add libugba submodule
+# ---------------------
 
+set(LUA_INTERPRETER_ENABLED ON CACHE BOOL "")
 add_subdirectory(libugba)
 
 # Add testing
