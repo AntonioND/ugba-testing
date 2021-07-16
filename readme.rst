@@ -78,7 +78,7 @@ Clone this repository along with its submodules:
 
 .. code:: bash
 
-    git clone --recurse-submodules https://github.com/AntonioND/ugba
+    git clone --recurse-submodules https://github.com/AntonioND/ugba-testing
 
 Finally, go to the folder of **ugba**. The following will build the library,
 examples, and run all the tests to verify it's working:
@@ -117,7 +117,7 @@ Clone this repository along with its submodules:
 
 .. code:: bash
 
-    git clone --recurse-submodules https://github.com/AntonioND/ugba
+    git clone --recurse-submodules https://github.com/AntonioND/ugba-testing
 
 Finally, go to the folder of **ugba**. The following will build the library,
 and examples, in **Developer Command Prompt for VS 2019**:
@@ -142,7 +142,7 @@ Clone this repository along with its submodules:
 
 .. code:: bash
 
-    git clone --recurse-submodules https://github.com/AntonioND/ugba
+    git clone --recurse-submodules https://github.com/AntonioND/ugba-testing
     cd ugba
 
 First, build **libugba**. Go to ``libugba`` and type ``make``.
