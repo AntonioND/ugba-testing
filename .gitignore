@@ -3,6 +3,7 @@
 *.gba
 *.sav
 build/
+built_assets/
 lib/
 
 # Vim swap files
