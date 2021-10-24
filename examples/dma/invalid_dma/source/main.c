@@ -13,7 +13,7 @@
 // File generated with:
 //     head -c 16K </dev/urandom >random.bin
 
-#include "random_bin.h"
+#include "data/random_bin.h"
 
 // 16 K buffer aligned to at least 32 bit (for DMA copies)
 static uint64_t buffer[(16 * 1024) / sizeof(uint64_t)];

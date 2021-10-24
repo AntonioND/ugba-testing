@@ -12,7 +12,7 @@
 // File generated with:
 //     head -c 128 </dev/urandom >random.bin
 
-#include "random_bin.h"
+#include "data/random_bin.h"
 
 // 128 byte buffers aligned to at least 32 bit (for DMA copies)
 static uint64_t buffer_vbl[128 / sizeof(uint64_t)];
