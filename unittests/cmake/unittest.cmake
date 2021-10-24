@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 #
-# Copyright (c) 2020 Antonio Niño Díaz
+# Copyright (c) 2020-2021 Antonio Niño Díaz
 
 function(define_unittest)
 
@@ -8,6 +8,8 @@ function(define_unittest)
     # --------------------------------
 
     get_filename_component(EXECUTABLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+
+    toolchain_gba()
 
     add_executable(${EXECUTABLE_NAME})
 

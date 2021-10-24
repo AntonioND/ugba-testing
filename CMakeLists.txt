@@ -27,7 +27,7 @@ set(BUILD_GBA_INTERNAL "${BUILD_GBA}")
 # Global compiler-specific options
 # --------------------------------
 
-include(cmake/compiler_flags.cmake)
+#include(cmake/compiler_flags.cmake)
 
 # Add libugba submodule
 # ---------------------
@@ -38,42 +38,50 @@ add_subdirectory(libugba)
 # Add testing
 # -----------
 
-# If this project is being used as a module within another project, remove all
-# testing and examples from the build.
-if(NOT PROJECT_IS_SUBMODULE)
-    enable_testing()
+enable_testing()
 
-    add_subdirectory(tools)
+add_subdirectory(tools)
 
-    if(NOT LIBUGBA_ONLY)
+# GiiBiiAdvance is needed for unit tests
 
-        # GiiBiiAdvance is needed for unit tests
+get_filename_component(GIIBIIADVANCE_PATH "giibiiadvance" ABSOLUTE)
 
-        get_filename_component(GIIBIIADVANCE_PATH "giibiiadvance" ABSOLUTE)
-
-        if(EXISTS "${GIIBIIADVANCE_PATH}/.git")
-            set(ENABLE_CAMERA OFF CACHE BOOL "")
-            add_subdirectory(${GIIBIIADVANCE_PATH} giibiiadvance)
-        else()
-            message(FATAL_ERROR "Git submodules not initialized."
-                    "Please run `git submodule update --init --recursive`")
-        endif()
-
-        # UMOD Player is needed by the tests that use it
-
-        get_filename_component(UMOD_PLAYER_PATH "umod-player" ABSOLUTE)
-
-        if(EXISTS "${UMOD_PLAYER_PATH}/.git")
-            add_subdirectory(${UMOD_PLAYER_PATH})
-        else()
-            message(FATAL_ERROR "Git submodules not initialized."
-                    "Please run `git submodule update --init --recursive`")
-        endif()
-
-    endif()
-
-    include(cmake/example.cmake)
-
-    add_subdirectory(examples)
-    add_subdirectory(unittests)
+if(EXISTS "${GIIBIIADVANCE_PATH}/.git")
+    set(ENABLE_CAMERA OFF CACHE BOOL "")
+    add_subdirectory(${GIIBIIADVANCE_PATH} giibiiadvance)
+else()
+    message(FATAL_ERROR "Git submodules not initialized."
+            "Please run `git submodule update --init --recursive`")
 endif()
+
+# UMOD Player is needed by the tests that use it
+
+get_filename_component(UMOD_PLAYER_PATH "umod-player" ABSOLUTE)
+
+if(EXISTS "${UMOD_PLAYER_PATH}/.git")
+    add_subdirectory(${UMOD_PLAYER_PATH})
+else()
+    message(FATAL_ERROR "Git submodules not initialized."
+            "Please run `git submodule update --init --recursive`")
+endif()
+
+include(cmake/example.cmake)
+
+# Toolchain selection macros
+# --------------------------
+
+get_filename_component(UGBA_EXAMPLES_PATH "." ABSOLUTE)
+
+macro(toolchain_gba)
+    include(${UGBA_EXAMPLES_PATH}/cmake/toolchain_gba.cmake)
+endmacro()
+
+macro(toolchain_sdl2)
+    include(${UGBA_EXAMPLES_PATH}/cmake/toolchain_sdl2.cmake)
+endmacro()
+
+# Add tests
+# ---------
+
+add_subdirectory(examples)
+add_subdirectory(unittests)

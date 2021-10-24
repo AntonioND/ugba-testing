@@ -7,6 +7,7 @@ function(enable_debug_example)
     get_filename_component(EXECUTABLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
     target_compile_definitions(${EXECUTABLE_NAME} PUBLIC -DUGBA_DEBUG)
+    target_compile_definitions(${EXECUTABLE_NAME}_gba PUBLIC -DUGBA_DEBUG)
 
 endfunction()
 
@@ -17,66 +18,113 @@ function(define_example)
 
     get_filename_component(EXECUTABLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-    add_executable(${EXECUTABLE_NAME})
-
-    target_link_libraries(${EXECUTABLE_NAME} libugba)
-
     # Add source code files
     # ---------------------
 
     # Macro that searches all the source files in the specified directory in
     # 'dir' and saves them in 'var'
     macro(search_source_files dir var)
-        file(GLOB ${var} CONFIGURE_DEPENDS ${dir}/*.c ${dir}/*.h)
+        file(GLOB_RECURSE ${var} CONFIGURE_DEPENDS ${dir}/*.c ${dir}/*.h)
     endmacro()
 
     search_source_files(source FILES_SOURCE)
+    search_source_files(built_assets FILES_BUILT_ASSETS)
+    set(ALL_FILES_SOURCE
+        ${FILES_SOURCE}
+        ${FILES_BUILT_ASSETS}
+    )
 
-    target_sources(${EXECUTABLE_NAME} PRIVATE ${FILES_SOURCE})
+    get_filename_component(INCLUDE_PATH_SOURCE "source" ABSOLUTE)
+    get_filename_component(INCLUDE_PATH_BUILT_ASSETS "built_assets" ABSOLUTE)
 
-    # Add graphics files
-    # ------------------
+    set(INCLUDE_PATHS
+        ${INCLUDE_PATH_SOURCE}
+        ${INCLUDE_PATH_BUILT_ASSETS}
+    )
 
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/graphics)
-        add_grit_files(graphics ${EXECUTABLE_NAME})
-    endif()
-
-    # Add data files
-    # --------------
-
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/data)
-        add_data_files(data ${EXECUTABLE_NAME})
-    endif()
-
-    # Add audio files
-    # ---------------
-
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/audio)
-        target_link_libraries(${EXECUTABLE_NAME} umod_player)
-        add_umod_player_files(audio ${EXECUTABLE_NAME}
-            umod_pack.bin umod_pack_info.h
-        )
-    endif()
+    add_subdirectory(sdl2)
 
     # Build GBA version if requested
     # ------------------------------
 
     if(BUILD_GBA_INTERNAL)
-        add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba
-            BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}/build
-            COMMAND make -j`nproc`
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        )
-
-        add_custom_target(${EXECUTABLE_NAME}_gba ALL
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba
-        )
-
-        add_dependencies(${EXECUTABLE_NAME}_gba libugba_gba)
+        add_subdirectory(gba)
     endif()
 
 endfunction()
+
+macro(example_build_gba)
+
+    toolchain_gba()
+
+    # Define library target
+    # ---------------------
+
+    add_executable(${EXECUTABLE_NAME}_gba)
+    target_link_libraries(${EXECUTABLE_NAME}_gba libugba_gba)
+    target_link_libraries(${EXECUTABLE_NAME}_gba umod_player_gba)
+
+    # Source code, include directories and global definitions
+    # -------------------------------------------------------
+
+    target_sources(${EXECUTABLE_NAME}_gba PRIVATE ${ALL_FILES_SOURCE})
+    target_include_directories(${EXECUTABLE_NAME}_gba PRIVATE ${INCLUDE_PATHS})
+
+    # Build options
+    # -------------
+
+    gba_set_compiler_options(${EXECUTABLE_NAME}_gba)
+
+    set(ARGS_C -Wall -Wextra -Wno-unused-parameter)
+
+    target_compile_options(${EXECUTABLE_NAME}_gba PRIVATE
+        $<$<COMPILE_LANGUAGE:C>:${ARGS_C}>
+    )
+
+    target_link_options(${EXECUTABLE_NAME}_gba PRIVATE
+        -flto
+        -Wno-stringop-overflow -Wno-stringop-overread
+    )
+
+    # Generate GBA ROM from the ELF file
+    # ----------------------------------
+
+    make_gba_rom(${EXECUTABLE_NAME}_gba ${EXECUTABLE_NAME}_gba "UGBAEXAMPLE" "UGBA")
+
+    install(
+        FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}_gba.gba
+        DESTINATION
+            .
+    )
+
+endmacro()
+
+macro(example_build_sdl2)
+
+    toolchain_sdl2()
+
+    # Define library target
+    # ---------------------
+
+    add_executable(${EXECUTABLE_NAME})
+    target_link_libraries(${EXECUTABLE_NAME} libugba)
+    target_link_libraries(${EXECUTABLE_NAME} umod_player)
+
+    # Source code, include directories and global definitions
+    # -------------------------------------------------------
+
+    target_sources(${EXECUTABLE_NAME} PRIVATE ${ALL_FILES_SOURCE})
+    target_include_directories(${EXECUTABLE_NAME} PRIVATE ${INCLUDE_PATHS})
+
+    install(
+        TARGETS
+            ${EXECUTABLE_NAME} libugba
+        DESTINATION
+            .
+    )
+
+endmacro()
 
 # TODO: There must be some way to make a generic function for any number of
 # screenshots.
@@ -131,7 +179,7 @@ function(unittest_screenshot)
             set(REF_PNG "${CMAKE_CURRENT_SOURCE_DIR}/reference.png")
         endif()
 
-        set(GBA_ROM "${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba")
+        set(GBA_ROM "${CMAKE_CURRENT_BINARY_DIR}/gba/${EXECUTABLE_NAME}_gba.gba")
 
         set(CMD1 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT} ${GBA_ROM}")
         set(CMD2 "$<TARGET_FILE:pngmatch> ${REF_PNG} screenshot.png")
@@ -207,7 +255,7 @@ function(unittest_two_screenshots)
             set(REF_2_PNG "${CMAKE_CURRENT_SOURCE_DIR}/reference-2.png")
         endif()
 
-        set(GBA_ROM "${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba")
+        set(GBA_ROM "${CMAKE_CURRENT_BINARY_DIR}/gba/${EXECUTABLE_NAME}_gba.gba")
 
         set(CMD1 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT} ${GBA_ROM}")
         set(CMD2 "$<TARGET_FILE:pngmatch> ${REF_1_PNG} screenshot-1.png")
@@ -297,7 +345,7 @@ function(unittest_three_screenshots)
             set(REF_3_PNG "${CMAKE_CURRENT_SOURCE_DIR}/reference-3.png")
         endif()
 
-        set(GBA_ROM "${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba")
+        set(GBA_ROM "${CMAKE_CURRENT_BINARY_DIR}/gba/${EXECUTABLE_NAME}_gba.gba")
 
         set(CMD1 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT} ${GBA_ROM}")
         set(CMD2 "$<TARGET_FILE:pngmatch> ${REF_1_PNG} screenshot-1.png")
@@ -370,7 +418,7 @@ function(unittest_audio)
             set(REF_WAV "${CMAKE_CURRENT_SOURCE_DIR}/reference.wav")
         endif()
 
-        set(GBA_ROM "${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba")
+        set(GBA_ROM "${CMAKE_CURRENT_BINARY_DIR}/gba/${EXECUTABLE_NAME}_gba.gba")
 
         set(CMD1 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT} ${GBA_ROM}")
         set(CMD2 "${CMAKE_COMMAND} -E compare_files ${REF_WAV} audio.wav")
@@ -451,7 +499,7 @@ function(unittest_audio_screenshot)
             set(REF_PNG "${CMAKE_CURRENT_SOURCE_DIR}/reference.png")
         endif()
 
-        set(GBA_ROM "${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba")
+        set(GBA_ROM "${CMAKE_CURRENT_BINARY_DIR}/gba/${EXECUTABLE_NAME}_gba.gba")
 
         set(CMD1 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT} ${GBA_ROM}")
         set(CMD2 "${CMAKE_COMMAND} -E compare_files ${REF_WAV} audio.wav")
@@ -508,7 +556,7 @@ function(unittest_sram)
     # -------------
 
     if(BUILD_GBA_INTERNAL)
-        set(GBA_ROM "${CMAKE_CURRENT_SOURCE_DIR}/${EXECUTABLE_NAME}.gba")
+        set(GBA_ROM "${CMAKE_CURRENT_BINARY_DIR}/gba/${EXECUTABLE_NAME}_gba.gba")
 
         set(CMD1 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT_1} ${GBA_ROM}")
         set(CMD2 "$<TARGET_FILE:giibiiadvance> --lua ${TEST_SCRIPT_2} ${GBA_ROM}")
