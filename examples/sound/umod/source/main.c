@@ -14,8 +14,8 @@
 
 #include <umod/umod.h>
 
-#include "umod_pack_bin.h"
-#include "umod_pack_info.h"
+#include "audio/umod_pack_bin.h"
+#include "audio/umod_pack_info.h"
 
 // Buffer size needs to be a multiple of 16 (the amount of bytes copied to the
 // FIFO whenever it gets data from DMA).
