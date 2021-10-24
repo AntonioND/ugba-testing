@@ -11,7 +11,7 @@
 // File generated with:
 //     head -c 128 </dev/urandom > random.bin
 
-#include "random_bin.h"
+#include "data/random_bin.h"
 
 // Buffers aligned to at least 32 bit (for DMA copies). The data of random.bin
 // is copied to src_buffer[] so that it can be copied with DMA to dst_buffer[].

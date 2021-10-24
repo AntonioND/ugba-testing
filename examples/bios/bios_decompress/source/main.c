@@ -10,14 +10,14 @@
 
 // Files generated with GBACrusher
 
-#include "main_c_bin.h"
-#include "main_c_diff_16_bin.h"
-#include "main_c_diff_8_bin.h"
-#include "main_c_huff_4_bin.h"
-#include "main_c_huff_8_bin.h"
-#include "main_c_lz77_8_bin.h"
-#include "main_c_lz77_16_bin.h"
-#include "main_c_rl_bin.h"
+#include "data/main_c_bin.h"
+#include "data/main_c_diff_16_bin.h"
+#include "data/main_c_diff_8_bin.h"
+#include "data/main_c_huff_4_bin.h"
+#include "data/main_c_huff_8_bin.h"
+#include "data/main_c_lz77_8_bin.h"
+#include "data/main_c_lz77_16_bin.h"
+#include "data/main_c_rl_bin.h"
 
 // 16 K buffer aligned to 32 bit
 static uint32_t buffer[(16 * 1024) / sizeof(uint32_t)];
