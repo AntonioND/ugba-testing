@@ -8,12 +8,6 @@ else()
     set(DEVKITARM_BIN "/opt/devkitpro/devkitARM/bin/")
 endif()
 
-if(DEFINED ENV{DEVKITPRO})
-    set(DEVKITPRO_TOOLS "$ENV{DEVKITPRO}/tools/bin/")
-else()
-    set(DEVKITPRO_TOOLS "/opt/devkitpro/tools/bin/")
-endif()
-
 set(CMAKE_ASM_COMPILER "${DEVKITARM_BIN}arm-none-eabi-gcc")
 set(CMAKE_C_COMPILER "${DEVKITARM_BIN}arm-none-eabi-gcc")
 set(CMAKE_OBJCOPY "${DEVKITARM_BIN}arm-none-eabi-objcopy")
