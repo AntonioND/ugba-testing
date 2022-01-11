@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 #
-# Copyright (c) 2020-2021 Antonio Niño Díaz
+# Copyright (c) 2020-2022 Antonio Niño Díaz
 
 function(define_unittest)
 
@@ -34,20 +34,6 @@ function(define_unittest)
     search_source_files(source FILES_SOURCE)
 
     target_sources(${EXECUTABLE_NAME} PRIVATE ${FILES_SOURCE})
-
-    # Add graphics files
-    # ------------------
-
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/graphics)
-        add_grit_files(graphics ${EXECUTABLE_NAME})
-    endif()
-
-    # Add data files
-    # --------------
-
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/data)
-        add_data_files(data ${EXECUTABLE_NAME})
-    endif()
 
     # Define CMake test
     # -----------------
