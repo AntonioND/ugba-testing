@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 #
-# Copyright (c) 2020-2021 Antonio Niño Díaz
+# Copyright (c) 2020-2022 Antonio Niño Díaz
 
 cmake_minimum_required(VERSION 3.15)
 project(ugba)
@@ -20,6 +20,8 @@ set(PROJECT_IS_SUBMODULE ${PROJECT_HAS_PARENT})
 # -------------
 
 option(BUILD_GBA "Build GBA binaries in addition to PC binaries" OFF)
+
+option(USE_DEVKITARM "Use devkitARM to build GBA binaries" ON)
 
 # Save it to a regular variable so that it can be disabled per-folder.
 set(BUILD_GBA_INTERNAL "${BUILD_GBA}")
