@@ -168,6 +168,19 @@ the tests (both for PC and GBA), do:
 
     ctest
 
+4. Known bugs
+-------------
+
+- Audio tests on the GBA are too unreliable. All the test does is compare the
+  waveform outputted by the emulator with a reference, so any small change in
+  almost any part of the boot or audio code will break the test.
+
+- Tests that use sprites only work in release builds. It is related to GCC
+  generating byte writes to OAM when modifying 16-bit fields. This GCC bug seems
+  to still be present, and preventing a trivial fix of just flagging all fields
+  as volatile. https://gcc.gnu.org/bugzilla/show_bug.cgi?id=50521
+
+
 .. _GiiBiiAdvance: https://github.com/AntonioND/giibiiadvance
 .. _UMOD Player: https://github.com/AntonioND/umod-player
 .. _devkitPro: https://devkitpro.org/
