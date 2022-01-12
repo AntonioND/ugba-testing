@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 #
-# Copyright (c) 2020-2021 Antonio Niño Díaz
+# Copyright (c) 2020-2022 Antonio Niño Díaz
 
 function(enable_debug_example)
 
@@ -62,9 +62,6 @@ macro(example_build_gba)
 
     add_executable(${EXECUTABLE_NAME}_gba)
     target_link_libraries(${EXECUTABLE_NAME}_gba libugba_gba)
-    if(NOT USE_DEVKITARM)
-        target_link_libraries(${EXECUTABLE_NAME}_gba libsysgba_gba)
-    endif()
     target_link_libraries(${EXECUTABLE_NAME}_gba umod_player_gba)
 
     # Source code, include directories and global definitions
@@ -77,9 +74,6 @@ macro(example_build_gba)
     # -------------
 
     gba_set_compiler_options(${EXECUTABLE_NAME}_gba)
-    if(NOT USE_DEVKITARM)
-        libsysgba_set_compiler_options(${EXECUTABLE_NAME}_gba)
-    endif()
 
     set(ARGS_C -Wall -Wextra -Wno-unused-parameter)
 
