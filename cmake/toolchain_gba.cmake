@@ -14,6 +14,7 @@ endif()
 
 set(CMAKE_ASM_COMPILER "${ARM_GCC_PATH}arm-none-eabi-gcc")
 set(CMAKE_C_COMPILER "${ARM_GCC_PATH}arm-none-eabi-gcc")
+set(CMAKE_CXX_COMPILER "${ARM_GCC_PATH}arm-none-eabi-g++")
 set(CMAKE_LINKER "${ARM_GCC_PATH}arm-none-eabi-ld")
 set(CMAKE_AR "${ARM_GCC_PATH}arm-none-eabi-ar")
 set(CMAKE_OBJCOPY "${ARM_GCC_PATH}arm-none-eabi-objcopy")

@@ -24,7 +24,9 @@ function(define_example)
     # Macro that searches all the source files in the specified directory in
     # 'dir' and saves them in 'var'
     macro(search_source_files dir var)
-        file(GLOB_RECURSE ${var} CONFIGURE_DEPENDS ${dir}/*.c ${dir}/*.h)
+        file(GLOB_RECURSE ${var} CONFIGURE_DEPENDS
+             ${dir}/*.cpp ${dir}/*.c ${dir}/*.h
+        )
     endmacro()
 
     search_source_files(source FILES_SOURCE)
@@ -75,11 +77,8 @@ macro(example_build_gba)
 
     gba_set_compiler_options(${EXECUTABLE_NAME}_gba)
 
-    set(ARGS_C -Wall -Wextra -Wno-unused-parameter)
-
-    target_compile_options(${EXECUTABLE_NAME}_gba PRIVATE
-        $<$<COMPILE_LANGUAGE:C>:${ARGS_C}>
-    )
+    set(ARGS_C_CXX -Wall -Wextra -Wno-unused-parameter)
+    target_compile_options(${EXECUTABLE_NAME}_gba PRIVATE ${ARGS_C_CXX})
 
     target_link_options(${EXECUTABLE_NAME}_gba PRIVATE
         -flto

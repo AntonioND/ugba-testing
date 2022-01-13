@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.15)
 project(ugba)
-enable_language(C ASM)
+enable_language(CXX C ASM)
 
 set(C_STANDARD 11)
 set(C_EXTENSIONS OFF)
