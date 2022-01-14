@@ -57,7 +57,7 @@ endfunction()
 
 macro(example_build_gba)
 
-    toolchain_gba()
+    ugba_toolchain_gba()
 
     # Define library target
     # ---------------------
@@ -101,7 +101,7 @@ endmacro()
 
 macro(example_build_sdl2)
 
-    toolchain_sdl2()
+    ugba_toolchain_sdl2()
 
     # Define library target
     # ---------------------

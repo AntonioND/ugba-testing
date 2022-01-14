@@ -9,7 +9,7 @@ function(define_unittest)
 
     get_filename_component(EXECUTABLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-    toolchain_gba()
+    ugba_toolchain_gba()
 
     add_executable(${EXECUTABLE_NAME})
 

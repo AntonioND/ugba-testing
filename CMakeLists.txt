@@ -69,19 +69,6 @@ endif()
 
 include(cmake/example.cmake)
 
-# Toolchain selection macros
-# --------------------------
-
-get_filename_component(UGBA_EXAMPLES_PATH "." ABSOLUTE)
-
-macro(toolchain_gba)
-    include(${UGBA_EXAMPLES_PATH}/cmake/toolchain_gba.cmake)
-endmacro()
-
-macro(toolchain_sdl2)
-    include(${UGBA_EXAMPLES_PATH}/cmake/toolchain_sdl2.cmake)
-endmacro()
-
 # Add tests
 # ---------
 
