@@ -26,11 +26,6 @@ option(USE_DEVKITARM "Use devkitARM to build GBA binaries" ON)
 # Save it to a regular variable so that it can be disabled per-folder.
 set(BUILD_GBA_INTERNAL "${BUILD_GBA}")
 
-# Global compiler-specific options
-# --------------------------------
-
-#include(cmake/compiler_flags.cmake)
-
 # Add libugba submodule
 # ---------------------
 
