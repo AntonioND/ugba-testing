@@ -62,6 +62,7 @@ else()
             "Please run `git submodule update --init --recursive`")
 endif()
 
+include(cmake/compiler_flags.cmake)
 include(cmake/example.cmake)
 
 # Add tests

@@ -106,6 +106,7 @@ endmacro()
 macro(example_build_sdl2)
 
     ugba_toolchain_sdl2()
+    compiler_flags_sdl2()
 
     # Define library target
     # ---------------------
