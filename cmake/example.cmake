@@ -78,7 +78,11 @@ macro(example_build_gba)
     gba_set_compiler_options(${EXECUTABLE_NAME}_gba)
 
     set(ARGS_C_CXX -Wall -Wextra -Wno-unused-parameter)
-    target_compile_options(${EXECUTABLE_NAME}_gba PRIVATE ${ARGS_C_CXX})
+
+    target_compile_options(${EXECUTABLE_NAME}_gba PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:${ARGS_C_CXX}>
+        $<$<COMPILE_LANGUAGE:C>:${ARGS_C_CXX}>
+    )
 
     target_link_options(${EXECUTABLE_NAME}_gba PRIVATE
         -flto
