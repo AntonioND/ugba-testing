@@ -2,10 +2,10 @@
 #
 # Copyright (c) 2020-2022 Antonio Niño Díaz
 
-macro(compiler_flags_sdl2)
+macro(compiler_flags_sdl2 target_name)
 
     if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-        add_compile_options(
+        target_compile_options(${target_name} PRIVATE
             # Enable most common warnings
             -Wall -Wextra
 
@@ -13,7 +13,7 @@ macro(compiler_flags_sdl2)
             -Wformat-truncation=0
         )
         if(CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 9.3)
-            add_compile_options(
+            target_compile_options(${target_name} PRIVATE
                 # Enable a bunch of warnings that aren't enabled with Wall or
                 # Wextra
                 -Wformat-overflow=2 -Wformat=2 -Wno-format-nonliteral
@@ -45,12 +45,24 @@ macro(compiler_flags_sdl2)
             option(ENABLE_UBSAN "Compile with UBSan support (GCC)" OFF)
 
             if(ENABLE_UBSAN)
-                add_compile_options(
+                target_compile_options(${target_name} PRIVATE
                     -fsanitize=address      # Detect out-of-bounds accesses
                     -fsanitize=undefined    # Detect C undefined behaviour
 
                 )
-                add_link_options(
+            endif()
+        endif()
+    endif()
+
+endmacro()
+
+
+macro(linker_flags_sdl2 target_name)
+
+    if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+        if(CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 9.3)
+            if(ENABLE_UBSAN)
+                target_link_options(${target_name} PRIVATE
                     -fsanitize=address
                     -fsanitize=undefined
                 )

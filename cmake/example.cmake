@@ -105,13 +105,25 @@ endmacro()
 
 macro(example_build_sdl2)
 
-    ugba_toolchain_sdl2()
-    compiler_flags_sdl2()
+    # Define toolchain
+    # ----------------
 
-    # Define library target
-    # ---------------------
+    ugba_toolchain_sdl2()
+
+    # Define executable name
+    # ----------------------
 
     add_executable(${EXECUTABLE_NAME})
+
+    # Set compiler and linker options
+    # -------------------------------
+
+    compiler_flags_sdl2(${EXECUTABLE_NAME})
+    linker_flags_sdl2(${EXECUTABLE_NAME})
+
+    # Link with libugba and other system libraries
+    # --------------------------------------------
+
     target_link_libraries(${EXECUTABLE_NAME} libugba)
     target_link_libraries(${EXECUTABLE_NAME} umod_player)
 
