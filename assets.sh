@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-only
 #
-# Copyright (c) 2021, Antonio Niño Díaz
+# Copyright (c) 2021-2022, Antonio Niño Díaz
 
 set -e
 
@@ -12,6 +12,12 @@ pushd tools/bin2c
 rm -rf build ; mkdir build ; cd build
 cmake ..
 make
+popd
+
+pushd SuperFamiconv
+rm -rf build ; mkdir build ; cd build
+cmake ..
+make -j`nproc`
 popd
 
 pushd umod-player
