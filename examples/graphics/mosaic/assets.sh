@@ -26,7 +26,45 @@ GRAPHICS="${PWD}/graphics"
 mkdir ${OUT_DIR}/graphics
 pushd ${OUT_DIR}/graphics
 
-grit ${GRAPHICS}/city.png -ftc -o city
+# Background
+
+${SUPERFAMICONV} palette \
+    --mode gba \
+    --palettes 10 \
+    --colors 16 \
+    --color-zero FF00FF \
+    --in-image ${GRAPHICS}/city.png \
+    --out-data city_palette.bin \
+    --out-image city_palette.png \
+    --verbose
+
+${SUPERFAMICONV} tiles \
+    --mode gba \
+    --bpp 4 \
+    --tile-width 8 --tile-height 8 \
+    --max-tiles 512 \
+    --in-image ${GRAPHICS}/city.png \
+    --in-palette city_palette.bin \
+    --out-data city_tiles.bin \
+    --no-flip \
+    --verbose
+
+${SUPERFAMICONV} map \
+    --mode gba \
+    --bpp 4 \
+    --tile-width 8 --tile-height 8 \
+    --tile-base-offset 0 \
+    --palette-base-offset 0 \
+    --map-width 64 --map-height 64 \
+    --split-width 64 --split-height 64 \
+    --in-image ${GRAPHICS}/city.png \
+    --in-palette city_palette.bin \
+    --in-tiles city_tiles.bin \
+    --out-data city_map.bin \
+    --no-flip \
+    --verbose
+
+# Sprites
 
 ${SUPERFAMICONV} palette \
     --mode gba \
