@@ -6,6 +6,13 @@
 
 set -e
 
+SCRIPT=`realpath $0`
+IN=`dirname $SCRIPT`
+
+echo ""
+echo "[*] Converting ${IN}..."
+echo ""
+
 # Prepare destination folder
 
 OUT_DIR=built_assets
