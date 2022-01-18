@@ -6,31 +6,35 @@
 
 set -e
 
-# Build tools
-
-pushd tools/bin2c
-rm -rf build ; mkdir build ; cd build
-cmake ..
-make
-popd
-
-pushd SuperFamiconv
-rm -rf build ; mkdir build ; cd build
-cmake ..
-make -j`nproc`
-popd
-
-pushd umod-player
-rm -rf build ; mkdir build ; cd build
-cmake ..
-make
-popd
-
 # Paths to tools
 
-export SUPERFAMICONV=${PWD}/SuperFamiconv/build/superfamiconv
+export SUPERFAMICONV=${PWD}/SuperFamiconv/bin/superfamiconv
 export BIN2C=${PWD}/tools/bin2c/build/bin2c
 export UMOD_PACKER=${PWD}/umod-player/build/packer/umod_packer
+
+# Build tools
+
+if [ ! -d "${BIN2C}" ]; then
+    pushd tools/bin2c
+    rm -rf build ; mkdir build ; cd build
+    cmake ..
+    make -j`nproc`
+    popd
+fi
+
+if [ ! -d "${SUPERFAMICONV}" ]; then
+    pushd SuperFamiconv
+    make -j`nproc`
+    popd
+fi
+
+if [ ! -d "${UMOD_PACKER}" ]; then
+    pushd umod-player
+    rm -rf build ; mkdir build ; cd build
+    cmake ..
+    make -j`nproc`
+    popd
+fi
 
 # Run child scripts
 
