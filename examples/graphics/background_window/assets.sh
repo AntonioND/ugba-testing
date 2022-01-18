@@ -23,7 +23,7 @@ ${SUPERFAMICONV} palette \
     --mode gba \
     --palettes 10 \
     --colors 16 \
-    --color-zero FF00FF \
+    --color-zero 000000 \
     --in-image ${GRAPHICS}/city.png \
     --out-data city_palette.bin \
     --out-image city_palette.png \

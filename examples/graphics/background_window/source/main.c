@@ -74,13 +74,15 @@ int main(int argc, char *argv[])
     // which means that the inside of WIN1 will display the background while the
     // inside of WIN0 won't.
 
-    WIN_SetupWin0(48, GBA_SCREEN_W - 48,
-                  48, GBA_SCREEN_H - 48);
+    WIN_Win0SizeSet(48, GBA_SCREEN_W - 48,
+                    48, GBA_SCREEN_H - 48);
 
-    WIN_SetupWin1(16, GBA_SCREEN_W - 16,
-                  16, GBA_SCREEN_H - 16);
+    WIN_Win1SizeSet(16, GBA_SCREEN_W - 16,
+                    16, GBA_SCREEN_H - 16);
 
-    REG_WININ = WIN1_BG0_ENABLE;
+    WIN_Win0LayersSet(0);
+    WIN_Win1LayersSet(WININ1_BG0_ENABLE);
+    WIN_WinOutLayersSet(0);
 
     while (1)
     {
