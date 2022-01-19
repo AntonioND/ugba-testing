@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 //
-// Copyright (c) 2020 Antonio Niño Díaz
+// Copyright (c) 2020, 2022 Antonio Niño Díaz
 
 // Test that makes sure that the sine and cosine implementations in the library
 // have an error lower than the expected one.
@@ -11,6 +11,10 @@
 #include <ugba/ugba.h>
 
 #define MAX_ABS_ERROR   (13)
+
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
 
 int32_t sin_approx(int32_t x)
 {
