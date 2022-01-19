@@ -120,4 +120,3 @@ To run the tests, simply do:
 .. _SuperFamiconv: https://github.com/Optiroc/SuperFamiconv
 .. _devkitPro: https://devkitpro.org/
 .. _libugba: https://github.com/AntonioND/libugba
-.. _vcpkg: https://github.com/microsoft/vcpkg
