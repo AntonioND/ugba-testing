@@ -91,10 +91,15 @@ The following will build the library, and examples for the host and for GBA:
     cmake .. -DCMAKE_BUILD_TYPE=Release
     make -j`nproc`
 
-Note: If you aren't using **devkitPro**, you need to add ``-DUSE_DEVKITARM=OFF``
-to the ``cmake`` command.
+If you aren't using **devkitPro**, you need to add ``-DUSE_DEVKITARM=OFF`` to
+the ``cmake`` command.
 
-To run the tests, simply do:
+To override the autodetected location of the cross compiler, you can add
+``-DARM_GCC_PATH=/path/to/folder/`` to the ``cmake`` command.
+
+To disable the generation of GBA ROMs you can add ``-DBUILD_GBA=OFF``.
+
+Finally, to run the tests, simply do:
 
 .. code:: bash
 
