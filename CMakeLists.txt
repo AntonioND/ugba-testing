@@ -19,18 +19,33 @@ set(PROJECT_IS_SUBMODULE ${PROJECT_HAS_PARENT})
 # Build options
 # -------------
 
-option(BUILD_GBA "Build GBA binaries in addition to PC binaries" OFF)
-
 option(USE_DEVKITARM "Use devkitARM to build GBA binaries" ON)
-
-# Save it to a regular variable so that it can be disabled per-folder.
-set(BUILD_GBA_INTERNAL "${BUILD_GBA}")
 
 # Add libugba submodule
 # ---------------------
 
 set(LUA_INTERPRETER_ENABLED ON CACHE BOOL "")
 add_subdirectory(libugba)
+
+# Look for an ARM toolchain
+# -------------------------
+
+if(NOT "${BUILD_GBA}" STREQUAL OFF)
+    if("${ARM_GCC_PATH}" STREQUAL "")
+        message(STATUS "ugba-testing: GBA toolchain not specified")
+        ugba_search_toolchain_gba(BUILD_GBA)
+    else()
+        message(STATUS "ugba-testing: GBA toolchain has been specified")
+        set(BUILD_GBA ON)
+    endif()
+endif()
+
+if(BUILD_GBA)
+    message(STATUS "ugba-testing: GBA toolchain: ${ARM_GCC_PATH}")
+endif()
+
+# Save it to a regular variable so that it can be disabled per-folder.
+set(BUILD_GBA_INTERNAL "${BUILD_GBA}")
 
 # Add testing
 # -----------

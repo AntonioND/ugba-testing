@@ -7,7 +7,9 @@ function(enable_debug_example)
     get_filename_component(EXECUTABLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
     target_compile_definitions(${EXECUTABLE_NAME} PUBLIC -DUGBA_DEBUG)
-    target_compile_definitions(${EXECUTABLE_NAME}_gba PUBLIC -DUGBA_DEBUG)
+    if(BUILD_GBA_INTERNAL)
+        target_compile_definitions(${EXECUTABLE_NAME}_gba PUBLIC -DUGBA_DEBUG)
+    endif()
 
 endfunction()
 

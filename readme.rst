@@ -88,7 +88,7 @@ The following will build the library, and examples for the host and for GBA:
 
     mkdir build
     cd build
-    cmake .. -DBUILD_GBA=ON -DCMAKE_BUILD_TYPE=Release
+    cmake .. -DCMAKE_BUILD_TYPE=Release
     make -j`nproc`
 
 Note: If you aren't using **devkitPro**, you need to add ``-DUSE_DEVKITARM=OFF``
