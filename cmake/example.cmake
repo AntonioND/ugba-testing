@@ -8,7 +8,8 @@ function(enable_debug_example)
 
     target_compile_definitions(${EXECUTABLE_NAME} PUBLIC -DUGBA_DEBUG)
     if(BUILD_GBA_INTERNAL)
-        target_compile_definitions(${EXECUTABLE_NAME}_gba PUBLIC -DUGBA_DEBUG)
+        set(GBA_ELF_NAME ${EXECUTABLE_NAME}_gba.elf)
+        target_compile_definitions(${GBA_ELF_NAME} PUBLIC -DUGBA_DEBUG)
     endif()
 
 endfunction()
@@ -61,32 +62,34 @@ macro(example_build_gba)
 
     ugba_toolchain_gba()
 
-    # Define library target
-    # ---------------------
+    # Define target
+    # -------------
 
-    add_executable(${EXECUTABLE_NAME}_gba)
-    target_link_libraries(${EXECUTABLE_NAME}_gba libugba_gba)
-    target_link_libraries(${EXECUTABLE_NAME}_gba umod_player_gba)
+    set(GBA_ELF_NAME ${EXECUTABLE_NAME}_gba.elf)
+
+    add_executable(${GBA_ELF_NAME})
+    target_link_libraries(${GBA_ELF_NAME} libugba_gba)
+    target_link_libraries(${GBA_ELF_NAME} umod_player_gba)
 
     # Source code, include directories and global definitions
     # -------------------------------------------------------
 
-    target_sources(${EXECUTABLE_NAME}_gba PRIVATE ${ALL_FILES_SOURCE})
-    target_include_directories(${EXECUTABLE_NAME}_gba PRIVATE ${INCLUDE_PATHS})
+    target_sources(${GBA_ELF_NAME} PRIVATE ${ALL_FILES_SOURCE})
+    target_include_directories(${GBA_ELF_NAME} PRIVATE ${INCLUDE_PATHS})
 
     # Build options
     # -------------
 
-    gba_set_compiler_options(${EXECUTABLE_NAME}_gba)
+    gba_set_compiler_options(${GBA_ELF_NAME})
 
     set(ARGS_C_CXX -Wall -Wextra -Wno-unused-parameter)
 
-    target_compile_options(${EXECUTABLE_NAME}_gba PRIVATE
+    target_compile_options(${GBA_ELF_NAME} PRIVATE
         $<$<COMPILE_LANGUAGE:CXX>:${ARGS_C_CXX}>
         $<$<COMPILE_LANGUAGE:C>:${ARGS_C_CXX}>
     )
 
-    target_link_options(${EXECUTABLE_NAME}_gba PRIVATE
+    target_link_options(${GBA_ELF_NAME} PRIVATE
         -flto
         -Wno-stringop-overflow -Wno-stringop-overread
     )
@@ -94,7 +97,7 @@ macro(example_build_gba)
     # Generate GBA ROM from the ELF file
     # ----------------------------------
 
-    make_gba_rom(${EXECUTABLE_NAME}_gba ${EXECUTABLE_NAME}_gba "UGBAEXAMPLE" "UGBA")
+    make_gba_rom(${GBA_ELF_NAME} ${EXECUTABLE_NAME}_gba "UGBAEXAMPLE" "UGBA")
 
     install(
         FILES
