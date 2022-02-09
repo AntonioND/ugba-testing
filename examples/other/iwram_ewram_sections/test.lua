@@ -1,7 +1,7 @@
--- Test that runs a program for 90 frames, takes a screenshot, presses A to
+-- Test that runs a program for 100 frames, takes a screenshot, presses A to
 -- show the results screen, takes a screenshot and exits.
 
-run_frames_and_pause(90)
+run_frames_and_pause(100)
 -- This screenshot is used as reference when the test fails, it isn't used for
 -- the test checks.
 screenshot("timer-values.png")
