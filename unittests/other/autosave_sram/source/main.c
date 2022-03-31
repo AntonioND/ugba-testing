@@ -38,12 +38,25 @@ int main(int argc, char *argv[])
         uint16_t keys_pressed = KEYS_Pressed();
 
         if (keys_pressed & KEY_UP)
-            sram[0]++;
+        {
+            uint8_t value;
+            SRAM_Read(&value, sram, sizeof(uint8_t));
+            value++;
+            SRAM_Write(sram, &value, sizeof(uint8_t));
+        }
         if (keys_pressed & KEY_DOWN)
-            sram[0]--;
+        {
+            uint8_t value;
+            SRAM_Read(&value, sram, sizeof(uint8_t));
+            value--;
+            SRAM_Write(sram, &value, sizeof(uint8_t));
+        }
 
         if (keys_pressed & KEY_START)
-            sram[0] = 0;
+        {
+            uint8_t value = 0;
+            SRAM_Write(sram, &value, sizeof(uint8_t));
+        }
 
         // Normally, when the SDL2 builds exit (with exit() or by pressing ESC)
         // the contents of SRAM are saved. During the initialization of the
