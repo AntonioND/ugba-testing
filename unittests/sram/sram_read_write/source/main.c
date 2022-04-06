@@ -21,6 +21,33 @@ EWRAM_DATA uint8_t buffer_small[MEM_SRAM_SIZE / 2] = { 0 };
         CON_Print(string); \
     }
 
+void SRAM_Location_Tests(void)
+{
+    // Only test this on GBA builds, there is no EWRAM in SDL2 builds
+#ifdef __GBA__
+    uintptr_t read_addr = (uintptr_t)&SRAM_Read;
+    uintptr_t write_addr = (uintptr_t)&SRAM_Write;
+
+    if ((read_addr < MEM_EWRAM_ADDR) ||
+        (read_addr > (MEM_EWRAM_ADDR + MEM_EWRAM_SIZE)))
+    {
+        char string[100];
+        snprintf(string, sizeof(string), "%d: SRAM_Read not in EWRAM\n",
+                 __LINE__);
+        CON_Print(string);
+    }
+
+    if ((write_addr < MEM_EWRAM_ADDR) ||
+        (write_addr > (MEM_EWRAM_ADDR + MEM_EWRAM_SIZE)))
+    {
+        char string[100];
+        snprintf(string, sizeof(string), "%d: SRAM_Write not in EWRAM\n",
+                 __LINE__);
+        CON_Print(string);
+    }
+#endif
+}
+
 void SRAM_Write_Tests(void)
 {
     int ret;
@@ -176,6 +203,9 @@ int main(int argc, char *argv[])
     DISP_ModeSet(0);
 
     CON_InitDefault();
+
+    CON_Print("Location of functions\n");
+    SRAM_Location_Tests();
 
     CON_Print("SRAM_Write()\n");
     SRAM_Write_Tests();
