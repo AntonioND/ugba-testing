@@ -125,6 +125,8 @@ void TestGlobal(void)
     DelayFrames(20);
     SOUND_PSG_Volume(7, 2);
     DelayFrames(20);
+    SOUND_PSG_Volume(0, 0); // Not actually silent!
+    DelayFrames(20);
     SOUND_PSG_Volume(7, 7);
 
     WaitPressA();
