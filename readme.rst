@@ -110,7 +110,8 @@ Finally, to run the tests, simply do:
 
 - Audio tests on the GBA are too unreliable. All the test does is compare the
   waveform outputted by the emulator with a reference, so any small change in
-  almost any part of the boot or audio code will break the test.
+  almost any part of the boot or audio code will break the test. Even the
+  difference between debug and release builds is enough to break them.
 
 
 .. _Arm's GNU toolchain downloads website: https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads
