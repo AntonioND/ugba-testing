@@ -25,12 +25,10 @@ void vcount_handler(void)
 
     line_info[vcount].vcount_flag = 1;
 
-    uint16_t dispstat = REG_DISPSTAT & ~DISPSTAT_VCOUNT_MASK;
-
     if (vcount == 227)
-        REG_DISPSTAT = dispstat | DISPSTAT_VCOUNT(0);
+        IRQ_SetReferenceVCOUNT(0);
     else
-        REG_DISPSTAT = dispstat | DISPSTAT_VCOUNT(vcount + 1);
+        IRQ_SetReferenceVCOUNT(vcount + 1);
 }
 
 int main(int argc, char *argv[])
