@@ -5,6 +5,7 @@
 include(cmake/unittest.cmake)
 
 add_subdirectory(bios)
+add_subdirectory(interrupts)
 add_subdirectory(maths)
 add_subdirectory(sound)
 add_subdirectory(sram)
