@@ -2,15 +2,21 @@
 #
 # Copyright (c) 2020-2022 Antonio Niño Díaz
 
-function(enable_debug_example)
+function(example_add_define define)
 
     get_filename_component(EXECUTABLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-    target_compile_definitions(${EXECUTABLE_NAME} PUBLIC -DUGBA_DEBUG)
+    target_compile_definitions(${EXECUTABLE_NAME} PUBLIC -D${define})
     if(BUILD_GBA_INTERNAL)
         set(GBA_ELF_NAME ${EXECUTABLE_NAME}_gba.elf)
-        target_compile_definitions(${GBA_ELF_NAME} PUBLIC -DUGBA_DEBUG)
+        target_compile_definitions(${GBA_ELF_NAME} PUBLIC -D${define})
     endif()
+
+endfunction()
+
+function(enable_debug_example)
+
+    example_add_define(UGBA_DEBUG)
 
 endfunction()
 
