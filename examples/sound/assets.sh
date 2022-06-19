@@ -13,6 +13,7 @@ echo ""
 echo "[*] Converting ${IN}..."
 echo ""
 
+(cd gbt_player && bash assets.sh)
 (cd umod && bash assets.sh)
 
 exit 0
