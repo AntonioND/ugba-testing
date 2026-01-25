@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 //
-// Copyright (c) 2009-2022 Antonio Niño Díaz <antonio_nd@outlook.com>
+// Copyright (c) 2009-2022 Antonio Niño Díaz
 
 #include <stdint.h>
 

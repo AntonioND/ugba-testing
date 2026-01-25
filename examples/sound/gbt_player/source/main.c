@@ -4,7 +4,7 @@
 
 // Example of playing music with GBT Player:
 //
-//     https://github.com/AntonioND/gbt-player
+//     https://codeberg.org/SkyLyrac/gbt-player
 
 #include <ugba/ugba.h>
 

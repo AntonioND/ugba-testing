@@ -60,7 +60,7 @@ Cygwin). First, clone this repository along with its submodules:
 
 .. code:: bash
 
-    git clone --recurse-submodules https://github.com/AntonioND/ugba-testing
+    git clone --recurse-submodules https://codeberg.org/SkyLyrac/ugba-testing
     cd ugba-testing
 
 Now, install the dependencies. For example, in Debian or Ubuntu:
@@ -117,8 +117,8 @@ Finally, to run the tests, simply do:
 
 .. _Arm's GNU toolchain downloads website: https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads
 .. _devkitPro Getting Started guide: https://devkitpro.org/wiki/Getting_Started
-.. _GiiBiiAdvance: https://github.com/AntonioND/giibiiadvance
-.. _UMOD Player: https://github.com/AntonioND/umod-player
+.. _GiiBiiAdvance: https://codeberg.org/SkyLyrac/giibiiadvance
+.. _UMOD Player: https://codeberg.org/SkyLyrac/umod-player
 .. _SuperFamiconv: https://github.com/Optiroc/SuperFamiconv
 .. _devkitPro: https://devkitpro.org/
-.. _libugba: https://github.com/AntonioND/libugba
+.. _libugba: https://codeberg.org/SkyLyrac/libugba
